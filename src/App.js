@@ -1,23 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from 'react';
+import SectionGenerator from './components/SectionGenerator';
+import exampleSection from './data/exampleSection_v2.json';
+import {validateSection} from './functions/ValidateSection.js';
 
 function App() {
+  const [section, setSection] = useState(exampleSection);
+  const handleAnswer = (index, value) => {
+    const copySection = {...section}
+    if(copySection.questions){
+      copySection.questions[index]['value'] = value;
+    }
+    validateSection(copySection);
+    setSection(copySection);
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App container">
+      <SectionGenerator section={section} handleAnswer={handleAnswer}/>
     </div>
   );
 }
